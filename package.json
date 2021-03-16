@@ -1,5 +1,5 @@
 {
-  "name": "red-contrib-covid-german-incidents",
+  "name": "node-red-contrib-covid-german-incidents",
   "version": "1.0.0",
   "description": "A node to receive the current incident value of your area in germany",
   "main": "index.js",
