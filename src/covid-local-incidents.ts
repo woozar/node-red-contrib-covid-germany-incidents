@@ -19,15 +19,18 @@ module.exports = (red: Red): void => {
           )
           .then(res => {
             send({
-              local_7_day_incidents: res.data.features[0].properties.cases7_per_100k,
-              regional_7_day_incidents: res.data.features[0].properties.cases7_bl_per_100k,
-              local_name: res.data.features[0].properties.county,
-              regional_name: res.data.features[0].properties.BL
+              payload: {
+                region_7_day_incidents: res.data.features[0].attributes.cases7_per_100k,
+                state_7_day_incidents: res.data.features[0].attributes.cases7_bl_per_100k,
+                region_name: res.data.features[0].attributes.county,
+                state_name: res.data.features[0].attributes.BL
+              }
             })
             done()
           })
+          .catch(() => done())
       })
     }
   }
-  red.nodes.registerType('time-based-dimmer', CovidLocalIncidents as any)
+  red.nodes.registerType('covid-local-incidents', CovidLocalIncidents as any)
 }
