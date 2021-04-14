@@ -41,7 +41,8 @@
   "author": "Johannes Herrmann (johannes.herrmann@12-of-spades.com)",
   "node-red": {
     "nodes": {
-      "covid-local-incidents": "dist/covid-local-incidents.js"
+      "covid-local-incidents": "dist/covid-local-incidents.js",
+      "covid-local-icus": "dist/covid-local-icus.js"
     }
   },
   "license": "MIT",

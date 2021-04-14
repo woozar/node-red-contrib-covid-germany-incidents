@@ -1,0 +1,467 @@
+<script type="text/javascript">
+  RED.nodes.registerType('covid-local-icus', {
+    category: 'function',
+    color: '#E9967A',
+    defaults: {
+      name: { value: '' },
+      region: { value: '' }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: 'font-awesome/fa-bar-chart',
+    label: function() {
+      return this.name || 'covid-local-icus'
+    }
+  })
+</script>
+
+<script type="text/x-red" data-template-name="covid-local-icus">
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-region"><i class="icon-tag"></i> Region</label>
+    <select id="node-input-region">
+      <option value="7131">Ahrweiler</option>
+      <option value="9771">Aichach-Friedberg</option>
+      <option value="8425">Alb-Donau-Kreis</option>
+      <option value="16077">Altenburger Land</option>
+      <option value="7132">Altenkirchen (Westerwald)</option>
+      <option value="15081">Altmarkkreis Salzwedel</option>
+      <option value="9171">Altötting</option>
+      <option value="7331">Alzey-Worms</option>
+      <option value="9361">Amberg</option>
+      <option value="9371">Amberg-Sulzbach</option>
+      <option value="3451">Ammerland</option>
+      <option value="15082">Anhalt-Bitterfeld</option>
+      <option value="9571">Ansbach</option>
+      <option value="9561">Ansbach</option>
+      <option value="9671">Aschaffenburg</option>
+      <option value="9661">Aschaffenburg</option>
+      <option value="9772">Augsburg</option>
+      <option value="9761">Augsburg</option>
+      <option value="3452">Aurich</option>
+      <option value="7332">Bad Dürkheim</option>
+      <option value="9672">Bad Kissingen</option>
+      <option value="7133">Bad Kreuznach</option>
+      <option value="9173">Bad Tölz-Wolfratshausen</option>
+      <option value="8211">Baden-Baden</option>
+      <option value="9471">Bamberg</option>
+      <option value="9461">Bamberg</option>
+      <option value="12060">Barnim</option>
+      <option value="14625">Bautzen</option>
+      <option value="9472">Bayreuth</option>
+      <option value="9462">Bayreuth</option>
+      <option value="9172">Berchtesgadener Land</option>
+      <option value="6431">Bergstraße</option>
+      <option value="11004">Berlin Charlottenburg-Wilmersdorf</option>
+      <option value="11002">Berlin Friedrichshain-Kreuzberg</option>
+      <option value="11011">Berlin Lichtenberg</option>
+      <option value="11010">Berlin Marzahn-Hellersdorf</option>
+      <option value="11001">Berlin Mitte</option>
+      <option value="11008">Berlin Neukölln</option>
+      <option value="11003">Berlin Pankow</option>
+      <option value="11012">Berlin Reinickendorf</option>
+      <option value="11005">Berlin Spandau</option>
+      <option value="11006">Berlin Steglitz-Zehlendorf</option>
+      <option value="11007">Berlin Tempelhof-Schöneberg</option>
+      <option value="11009">Berlin Treptow-Köpenick</option>
+      <option value="7231">Bernkastel-Wittlich</option>
+      <option value="8426">Biberach</option>
+      <option value="5711">Bielefeld</option>
+      <option value="7134">Birkenfeld</option>
+      <option value="8115">Böblingen</option>
+      <option value="5911">Bochum</option>
+      <option value="8435">Bodenseekreis</option>
+      <option value="5314">Bonn</option>
+      <option value="15083">Börde</option>
+      <option value="5554">Borken</option>
+      <option value="5512">Bottrop</option>
+      <option value="12051">Brandenburg an der Havel</option>
+      <option value="3101">Braunschweig</option>
+      <option value="8315">Breisgau-Hochschwarzwald</option>
+      <option value="4011">Bremen</option>
+      <option value="4012">Bremerhaven</option>
+      <option value="15084">Burgenlandkreis</option>
+      <option value="8235">Calw</option>
+      <option value="3351">Celle</option>
+      <option value="9372">Cham</option>
+      <option value="14511">Chemnitz</option>
+      <option value="3453">Cloppenburg</option>
+      <option value="9473">Coburg</option>
+      <option value="9463">Coburg</option>
+      <option value="7135">Cochem-Zell</option>
+      <option value="5558">Coesfeld</option>
+      <option value="12052">Cottbus</option>
+      <option value="3352">Cuxhaven</option>
+      <option value="9174">Dachau</option>
+      <option value="12061">Dahme-Spreewald</option>
+      <option value="6411">Darmstadt</option>
+      <option value="6432">Darmstadt-Dieburg</option>
+      <option value="9271">Deggendorf</option>
+      <option value="3401">Delmenhorst</option>
+      <option value="15001">Dessau-Roßlau</option>
+      <option value="3251">Diepholz</option>
+      <option value="9773">Dillingen a.d. Donau</option>
+      <option value="9279">Dingolfing-Landau</option>
+      <option value="1051">Dithmarschen</option>
+      <option value="9779">Donau-Ries</option>
+      <option value="7333">Donnersbergkreis</option>
+      <option value="5913">Dortmund</option>
+      <option value="14612">Dresden</option>
+      <option value="5112">Duisburg</option>
+      <option value="5358">Düren</option>
+      <option value="5111">Düsseldorf</option>
+      <option value="9175">Ebersberg</option>
+      <option value="16061">Eichsfeld</option>
+      <option value="9176">Eichstätt</option>
+      <option value="7232">Eifelkreis Bitburg-Prüm</option>
+      <option value="16056">Eisenach</option>
+      <option value="12062">Elbe-Elster</option>
+      <option value="3402">Emden</option>
+      <option value="8316">Emmendingen</option>
+      <option value="3454">Emsland</option>
+      <option value="5954">Ennepe-Ruhr-Kreis</option>
+      <option value="8236">Enzkreis</option>
+      <option value="9177">Erding</option>
+      <option value="16051">Erfurt</option>
+      <option value="9562">Erlangen</option>
+      <option value="9572">Erlangen-Höchstadt</option>
+      <option value="14521">Erzgebirgskreis</option>
+      <option value="5113">Essen</option>
+      <option value="8116">Esslingen</option>
+      <option value="5366">Euskirchen</option>
+      <option value="1001">Flensburg</option>
+      <option value="9474">Forchheim</option>
+      <option value="7311">Frankenthal (Pfalz)</option>
+      <option value="12053">Frankfurt (Oder)</option>
+      <option value="6412">Frankfurt am Main</option>
+      <option value="8311">Freiburg im Breisgau</option>
+      <option value="9178">Freising</option>
+      <option value="8237">Freudenstadt</option>
+      <option value="9272">Freyung-Grafenau</option>
+      <option value="3455">Friesland</option>
+      <option value="6631">Fulda</option>
+      <option value="9179">Fürstenfeldbruck</option>
+      <option value="9573">Fürth</option>
+      <option value="9563">Fürth</option>
+      <option value="9180">Garmisch-Partenkirchen</option>
+      <option value="5513">Gelsenkirchen</option>
+      <option value="16052">Gera</option>
+      <option value="7334">Germersheim</option>
+      <option value="6531">Gießen</option>
+      <option value="3151">Gifhorn</option>
+      <option value="8117">Göppingen</option>
+      <option value="14626">Görlitz</option>
+      <option value="3153">Goslar</option>
+      <option value="16067">Gotha</option>
+      <option value="3159">Göttingen</option>
+      <option value="3456">Grafschaft Bentheim</option>
+      <option value="16076">Greiz</option>
+      <option value="6433">Groß-Gerau</option>
+      <option value="9774">Günzburg</option>
+      <option value="5754">Gütersloh</option>
+      <option value="5914">Hagen</option>
+      <option value="15002">Halle (Saale)</option>
+      <option value="2000">Hamburg</option>
+      <option value="3252">Hameln-Pyrmont</option>
+      <option value="5915">Hamm</option>
+      <option value="3353">Harburg</option>
+      <option value="15085">Harz</option>
+      <option value="9674">Haßberge</option>
+      <option value="12063">Havelland</option>
+      <option value="3358">Heidekreis</option>
+      <option value="8221">Heidelberg</option>
+      <option value="8135">Heidenheim</option>
+      <option value="8125">Heilbronn</option>
+      <option value="8121">Heilbronn</option>
+      <option value="5370">Heinsberg</option>
+      <option value="3154">Helmstedt</option>
+      <option value="5758">Herford</option>
+      <option value="5916">Herne</option>
+      <option value="6632">Hersfeld-Rotenburg</option>
+      <option value="1053">Herzogtum Lauenburg</option>
+      <option value="16069">Hildburghausen</option>
+      <option value="3254">Hildesheim</option>
+      <option value="5958">Hochsauerlandkreis</option>
+      <option value="6434">Hochtaunuskreis</option>
+      <option value="9475">Hof</option>
+      <option value="9464">Hof</option>
+      <option value="8126">Hohenlohekreis</option>
+      <option value="3255">Holzminden</option>
+      <option value="5762">Höxter</option>
+      <option value="16070">Ilm-Kreis</option>
+      <option value="9161">Ingolstadt</option>
+      <option value="16053">Jena</option>
+      <option value="15086">Jerichower Land</option>
+      <option value="7335">Kaiserslautern</option>
+      <option value="7312">Kaiserslautern</option>
+      <option value="8215">Karlsruhe</option>
+      <option value="8212">Karlsruhe</option>
+      <option value="6633">Kassel</option>
+      <option value="6611">Kassel</option>
+      <option value="9762">Kaufbeuren</option>
+      <option value="9273">Kelheim</option>
+      <option value="9763">Kempten (Allgäu)</option>
+      <option value="1002">Kiel</option>
+      <option value="9675">Kitzingen</option>
+      <option value="5154">Kleve</option>
+      <option value="7111">Koblenz</option>
+      <option value="5315">Köln</option>
+      <option value="8335">Konstanz</option>
+      <option value="5114">Krefeld</option>
+      <option value="9476">Kronach</option>
+      <option value="9477">Kulmbach</option>
+      <option value="7336">Kusel</option>
+      <option value="16065">Kyffhäuserkreis</option>
+      <option value="6532">Lahn-Dill-Kreis</option>
+      <option value="7313">Landau in der Pfalz</option>
+      <option value="9181">Landsberg am Lech</option>
+      <option value="9274">Landshut</option>
+      <option value="9261">Landshut</option>
+      <option value="3457">Leer</option>
+      <option value="14729">Leipzig</option>
+      <option value="14713">Leipzig</option>
+      <option value="5316">Leverkusen</option>
+      <option value="9478">Lichtenfels</option>
+      <option value="6533">Limburg-Weilburg</option>
+      <option value="9776">Lindau (Bodensee)</option>
+      <option value="5766">Lippe</option>
+      <option value="8336">Lörrach</option>
+      <option value="1003">Lübeck</option>
+      <option value="3354">Lüchow-Dannenberg</option>
+      <option value="8118">Ludwigsburg</option>
+      <option value="7314">Ludwigshafen am Rhein</option>
+      <option value="13076">Ludwigslust-Parchim</option>
+      <option value="3355">Lüneburg</option>
+      <option value="15003">Magdeburg</option>
+      <option value="6435">Main-Kinzig-Kreis</option>
+      <option value="9677">Main-Spessart</option>
+      <option value="8128">Main-Tauber-Kreis</option>
+      <option value="6436">Main-Taunus-Kreis</option>
+      <option value="7315">Mainz</option>
+      <option value="7339">Mainz-Bingen</option>
+      <option value="8222">Mannheim</option>
+      <option value="15087">Mansfeld-Südharz</option>
+      <option value="6534">Marburg-Biedenkopf</option>
+      <option value="12064">Märkisch-Oderland</option>
+      <option value="5962">Märkischer Kreis</option>
+      <option value="7137">Mayen-Koblenz</option>
+      <option value="13071">Mecklenburgische Seenplatte</option>
+      <option value="14627">Meißen</option>
+      <option value="9764">Memmingen</option>
+      <option value="10042">Merzig-Wadern</option>
+      <option value="5158">Mettmann</option>
+      <option value="9182">Miesbach</option>
+      <option value="9676">Miltenberg</option>
+      <option value="5770">Minden-Lübbecke</option>
+      <option value="14522">Mittelsachsen</option>
+      <option value="5116">Mönchengladbach</option>
+      <option value="9183">Mühldorf a. Inn</option>
+      <option value="5117">Mülheim an der Ruhr</option>
+      <option value="9184">München</option>
+      <option value="9162">München</option>
+      <option value="5515">Münster</option>
+      <option value="8225">Neckar-Odenwald-Kreis</option>
+      <option value="9775">Neu-Ulm</option>
+      <option value="9185">Neuburg-Schrobenhausen</option>
+      <option value="9373">Neumarkt i.d. OPf.</option>
+      <option value="1004">Neumünster</option>
+      <option value="10043">Neunkirchen</option>
+      <option value="9575">Neustadt a.d. Aisch-Bad Windsheim</option>
+      <option value="9374">Neustadt a.d. Waldnaab</option>
+      <option value="7316">Neustadt an der Weinstraße</option>
+      <option value="7138">Neuwied</option>
+      <option value="3256">Nienburg (Weser)</option>
+      <option value="1054">Nordfriesland</option>
+      <option value="16062">Nordhausen</option>
+      <option value="14730">Nordsachsen</option>
+      <option value="13074">Nordwestmecklenburg</option>
+      <option value="3155">Northeim</option>
+      <option value="9564">Nürnberg</option>
+      <option value="9574">Nürnberger Land</option>
+      <option value="9780">Oberallgäu</option>
+      <option value="5374">Oberbergischer Kreis</option>
+      <option value="5119">Oberhausen</option>
+      <option value="12065">Oberhavel</option>
+      <option value="12066">Oberspreewald-Lausitz</option>
+      <option value="6437">Odenwaldkreis</option>
+      <option value="12067">Oder-Spree</option>
+      <option value="6438">Offenbach</option>
+      <option value="6413">Offenbach am Main</option>
+      <option value="3458">Oldenburg</option>
+      <option value="3403">Oldenburg (Oldb)</option>
+      <option value="5966">Olpe</option>
+      <option value="8317">Ortenaukreis</option>
+      <option value="3459">Osnabrück</option>
+      <option value="3404">Osnabrück</option>
+      <option value="8136">Ostalbkreis</option>
+      <option value="9777">Ostallgäu</option>
+      <option value="3356">Osterholz</option>
+      <option value="1055">Ostholstein</option>
+      <option value="12068">Ostprignitz-Ruppin</option>
+      <option value="5774">Paderborn</option>
+      <option value="9275">Passau</option>
+      <option value="9262">Passau</option>
+      <option value="3157">Peine</option>
+      <option value="9186">Pfaffenhofen a.d. Ilm</option>
+      <option value="8231">Pforzheim</option>
+      <option value="1056">Pinneberg</option>
+      <option value="7317">Pirmasens</option>
+      <option value="1057">Plön</option>
+      <option value="12054">Potsdam</option>
+      <option value="12069">Potsdam-Mittelmark</option>
+      <option value="12070">Prignitz</option>
+      <option value="8216">Rastatt</option>
+      <option value="8436">Ravensburg</option>
+      <option value="5562">Recklinghausen</option>
+      <option value="9276">Regen</option>
+      <option value="9375">Regensburg</option>
+      <option value="9362">Regensburg</option>
+      <option value="3241">Region Hannover</option>
+      <option value="10041">Regionalverband Saarbrücken</option>
+      <option value="8119">Rems-Murr-Kreis</option>
+      <option value="5120">Remscheid</option>
+      <option value="1058">Rendsburg-Eckernförde</option>
+      <option value="8415">Reutlingen</option>
+      <option value="5362">Rhein-Erft-Kreis</option>
+      <option value="7140">Rhein-Hunsrück-Kreis</option>
+      <option value="5162">Rhein-Kreis Neuss</option>
+      <option value="7141">Rhein-Lahn-Kreis</option>
+      <option value="8226">Rhein-Neckar-Kreis</option>
+      <option value="7338">Rhein-Pfalz-Kreis</option>
+      <option value="5382">Rhein-Sieg-Kreis</option>
+      <option value="6439">Rheingau-Taunus-Kreis</option>
+      <option value="5378">Rheinisch-Bergischer Kreis</option>
+      <option value="9673">Rhön-Grabfeld</option>
+      <option value="9187">Rosenheim</option>
+      <option value="9163">Rosenheim</option>
+      <option value="13072">Rostock</option>
+      <option value="13003">Rostock</option>
+      <option value="3357">Rotenburg (Wümme)</option>
+      <option value="9576">Roth</option>
+      <option value="9277">Rottal-Inn</option>
+      <option value="8325">Rottweil</option>
+      <option value="16074">Saale-Holzland-Kreis</option>
+      <option value="16075">Saale-Orla-Kreis</option>
+      <option value="15088">Saalekreis</option>
+      <option value="16073">Saalfeld-Rudolstadt</option>
+      <option value="10044">Saarlouis</option>
+      <option value="10045">Saarpfalz-Kreis</option>
+      <option value="14628">Sächsische Schweiz-Osterzgebirge</option>
+      <option value="3102">Salzgitter</option>
+      <option value="15089">Salzlandkreis</option>
+      <option value="3257">Schaumburg</option>
+      <option value="1059">Schleswig-Flensburg</option>
+      <option value="16066">Schmalkalden-Meiningen</option>
+      <option value="9565">Schwabach</option>
+      <option value="8127">Schwäbisch Hall</option>
+      <option value="6634">Schwalm-Eder-Kreis</option>
+      <option value="9376">Schwandorf</option>
+      <option value="8326">Schwarzwald-Baar-Kreis</option>
+      <option value="9678">Schweinfurt</option>
+      <option value="9662">Schweinfurt</option>
+      <option value="13004">Schwerin</option>
+      <option value="1060">Segeberg</option>
+      <option value="5970">Siegen-Wittgenstein</option>
+      <option value="8437">Sigmaringen</option>
+      <option value="5974">Soest</option>
+      <option value="5122">Solingen</option>
+      <option value="16068">Sömmerda</option>
+      <option value="16072">Sonneberg</option>
+      <option value="7318">Speyer</option>
+      <option value="12071">Spree-Neiße</option>
+      <option value="10046">St. Wendel</option>
+      <option value="3359">Stade</option>
+      <option value="5334">Städteregion Aachen</option>
+      <option value="9188">Starnberg</option>
+      <option value="1061">Steinburg</option>
+      <option value="5566">Steinfurt</option>
+      <option value="15090">Stendal</option>
+      <option value="1062">Stormarn</option>
+      <option value="9263">Straubing</option>
+      <option value="9278">Straubing-Bogen</option>
+      <option value="8111">Stuttgart</option>
+      <option value="7337">Südliche Weinstraße</option>
+      <option value="7340">Südwestpfalz</option>
+      <option value="16054">Suhl</option>
+      <option value="12072">Teltow-Fläming</option>
+      <option value="9377">Tirschenreuth</option>
+      <option value="9189">Traunstein</option>
+      <option value="7211">Trier</option>
+      <option value="7235">Trier-Saarburg</option>
+      <option value="8416">Tübingen</option>
+      <option value="8327">Tuttlingen</option>
+      <option value="12073">Uckermark</option>
+      <option value="3360">Uelzen</option>
+      <option value="8421">Ulm</option>
+      <option value="5978">Unna</option>
+      <option value="16064">Unstrut-Hainich-Kreis</option>
+      <option value="9778">Unterallgäu</option>
+      <option value="3460">Vechta</option>
+      <option value="3361">Verden</option>
+      <option value="5166">Viersen</option>
+      <option value="6535">Vogelsbergkreis</option>
+      <option value="14523">Vogtlandkreis</option>
+      <option value="13075">Vorpommern-Greifswald</option>
+      <option value="13073">Vorpommern-Rügen</option>
+      <option value="7233">Vulkaneifel</option>
+      <option value="6635">Waldeck-Frankenberg</option>
+      <option value="8337">Waldshut</option>
+      <option value="5570">Warendorf</option>
+      <option value="16063">Wartburgkreis</option>
+      <option value="9363">Weiden i.d. OPf.</option>
+      <option value="9190">Weilheim-Schongau</option>
+      <option value="16055">Weimar</option>
+      <option value="16071">Weimarer Land</option>
+      <option value="9577">Weißenburg-Gunzenhausen</option>
+      <option value="6636">Werra-Meißner-Kreis</option>
+      <option value="5170">Wesel</option>
+      <option value="3461">Wesermarsch</option>
+      <option value="7143">Westerwaldkreis</option>
+      <option value="6440">Wetteraukreis</option>
+      <option value="6414">Wiesbaden</option>
+      <option value="3405">Wilhelmshaven</option>
+      <option value="15091">Wittenberg</option>
+      <option value="3462">Wittmund</option>
+      <option value="3158">Wolfenbüttel</option>
+      <option value="3103">Wolfsburg</option>
+      <option value="7319">Worms</option>
+      <option value="9479">Wunsiedel i. Fichtelgebirge</option>
+      <option value="5124">Wuppertal</option>
+      <option value="9679">Würzburg</option>
+      <option value="9663">Würzburg</option>
+      <option value="8417">Zollernalbkreis</option>
+      <option value="7320">Zweibrücken</option>
+      <option value="14524">Zwickau</option>
+    </select>
+  </div>
+</script>
+
+<script type="text/x-red" data-help-region="covid-local-icus">
+  <p># DISCLAIMER</p>
+  <p>This node does not guarantee for anything but that it tries its best to read the data the Robert Koch Institute provides. Also the Robert Koch Institute is in no way whatsoever part of the development of this node. We are just using the data, they provide.</p>
+  <p># How is it working?</p>
+  <p>Add a covid-local-icus node to your flow, go to the settings and configure the name and the region, where you want to get the data from.
+  Everytime, the node gets any input message, it will request new data and send it to the output. Please do not flood the api, but only send very few messages. (I recommend once a day)</p>
+  <p>My Idea is, that I want to display todays statictics of icu usage on my dashboard, so I get a feeling what the situation in our hospitals really looks like.</p>
+  <p># Which values do I get?</p>
+  <p>I decided to provide most of the icu stats, the API provides. Also the name of the region and the state are being passed along. This looks like:</p>
+  <span>
+  {
+    "sites_count": 2,
+    "units_used": 122,
+    "units_free": 18,
+    "units_free_percent": 12.8571428571429,
+    "units_total": 140,
+    "covid_cases": 14,
+    "covid_cases_ventilated": 13,
+    "covid_cases_ventilated_percent": 92,
+    "covid_cases_percent": 11.47541,
+    "region_name": "SK Würzburg",
+    "state_name": "Bayern",
+    "date": "14.04.2021 12:15 Uhr"
+  }
+  </span>
+</script>
