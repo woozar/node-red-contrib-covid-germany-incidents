@@ -15,7 +15,7 @@ module.exports = (red: Red): void => {
       node.on('input', (_msg: any, send: Function, done: Function) => {
         Axios.default
           .get(
-            `https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/DIVI_Intensivregister_Landkreise/FeatureServer/0/query?where=BL__ID%3D${config.region}&returnGeodetic=false&outFields=*&returnGeometry=false&f=pjson`
+            `https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/DIVI_Intensivregister_Landkreise/FeatureServer/0/query?where=BL_ID%3D${config.region}&returnGeodetic=false&outFields=*&returnGeometry=false&f=pjson`
           )
           .then(res => {
             const payload = {
@@ -28,7 +28,7 @@ module.exports = (red: Red): void => {
               region_name: '',
               state_name: ''
             } as any
-            for(const item of res.data.features) {
+            for (const item of res.data.features) {
               payload.sites_count += item.attributes.anzahl_standorte
               payload.units_used += item.attributes.betten_belegt
               payload.units_free += item.attributes.betten_frei
@@ -38,14 +38,16 @@ module.exports = (red: Red): void => {
               payload.region_name = item.attributes.county
               payload.state_name = item.attributes.BL
             }
-            payload.units_free_percent = 100 * payload.units_free / payload.units_total
-            payload.covid_cases_percent = 100 * payload.covid_cases / payload.units_total
-            payload.covid_cases_ventilated_percent = 100 * payload.covid_cases_ventilated / payload.covid_cases
+            payload.units_free_percent = (100 * payload.units_free) / payload.units_total
+            payload.covid_cases_percent = (100 * payload.covid_cases) / payload.units_total
+            payload.covid_cases_ventilated_percent = (100 * payload.covid_cases_ventilated) / payload.covid_cases
 
             send({ payload })
             done()
           })
-          .catch(() => done())
+          .catch(e => {
+            done()
+          })
       })
     }
   }

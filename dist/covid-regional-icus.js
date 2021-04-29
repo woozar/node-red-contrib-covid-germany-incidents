@@ -8,7 +8,7 @@ module.exports = function (red) {
             var node = this;
             node.on('input', function (_msg, send, done) {
                 Axios.default
-                    .get("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/DIVI_Intensivregister_Landkreise/FeatureServer/0/query?where=BL__ID%3D" + config.region + "&returnGeodetic=false&outFields=*&returnGeometry=false&f=pjson")
+                    .get("https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/DIVI_Intensivregister_Landkreise/FeatureServer/0/query?where=BL_ID%3D" + config.region + "&returnGeodetic=false&outFields=*&returnGeometry=false&f=pjson")
                     .then(function (res) {
                     var payload = {
                         sites_count: 0,
@@ -31,13 +31,15 @@ module.exports = function (red) {
                         payload.region_name = item.attributes.county;
                         payload.state_name = item.attributes.BL;
                     }
-                    payload.units_free_percent = 100 * payload.units_free / payload.units_total;
-                    payload.covid_cases_percent = 100 * payload.covid_cases / payload.units_total;
-                    payload.covid_cases_ventilated_percent = 100 * payload.covid_cases_ventilated / payload.covid_cases;
+                    payload.units_free_percent = (100 * payload.units_free) / payload.units_total;
+                    payload.covid_cases_percent = (100 * payload.covid_cases) / payload.units_total;
+                    payload.covid_cases_ventilated_percent = (100 * payload.covid_cases_ventilated) / payload.covid_cases;
                     send({ payload: payload });
                     done();
                 })
-                    .catch(function () { return done(); });
+                    .catch(function (e) {
+                    done();
+                });
             });
         }
         return CovidRegionalIncidents;
