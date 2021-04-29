@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-covid-german-incidents",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A node to receive the current incident value of your area in germany",
   "main": "index.js",
   "scripts": {
@@ -42,6 +42,7 @@
   "node-red": {
     "nodes": {
       "covid-local-incidents": "dist/covid-local-incidents.js",
+      "covid-regional-icus": "dist/covid-regional-icus.js",
       "covid-local-icus": "dist/covid-local-icus.js"
     }
   },

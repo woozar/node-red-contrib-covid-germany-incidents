@@ -4,7 +4,7 @@ A node to receive the current incident value of your area in germany
 
 ## DISCLAIMER
 
-This node does not guarantee for anything, but that it tries its best to read the data the Robert Koch Institute provides. Also the Robert Koch Institute is in no way whatsoever part of the development of this node. We are just using the data from the API, they provide.
+This node does not guarantee for anything, but that it tries its best to read the data the "Robert Koch Institute (RKI)" and the "Deutsche Interdisziplinäre Vereinigung für Intensiv- und Notfallmedizin (DIVI)" provides. Also those institutions are in no way whatsoever part of the development of this node. We are just using the data from the APIs, they provide.
 
 ## How is it working?
 
@@ -46,6 +46,10 @@ I decided to get the incidents per 100k inhabitants for the selected region and 
   "date": "14.04.2021 12:15 Uhr"
 }
 ```
+
+### covid-regional-icus
+
+The same as covid-local-icus but as a summary for a whole "Bundesland".
 
 ### Why these values?
 

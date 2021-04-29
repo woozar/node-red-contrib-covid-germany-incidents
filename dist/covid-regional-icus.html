@@ -1,0 +1,61 @@
+<script type="text/javascript">
+  RED.nodes.registerType('covid-regional-icus', {
+    category: 'function',
+    color: '#E9967A',
+    defaults: {
+      name: { value: '' },
+      region: { value: '' }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: 'font-awesome/fa-bar-chart',
+    label: function() {
+      return this.name || 'covid-regional-icus'
+    }
+  })
+</script>
+
+<script type="text/x-red" data-template-name="covid-regional-icus">
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-region"><i class="icon-tag"></i> Region</label>
+    <select id="node-input-region">
+      <option value="9">Bayern</option>
+      <option value="5">Nordrhein-Westfalen</option>
+      <option value="1">Schleswig-Holstein</option>
+      <option value="2">Hamburg</option>
+      <option value="3">Niedersachsen</option>
+      
+    </select>
+  </div>
+</script>
+
+<script type="text/x-red" data-help-region="covid-regional-icus">
+  <p># DISCLAIMER</p>
+  <p>This node does not guarantee for anything but that it tries its best to read the data the Robert Koch Institute provides. Also the Robert Koch Institute is in no way whatsoever part of the development of this node. We are just using the data, they provide.</p>
+  <p># How is it working?</p>
+  <p>Add a covid-regional-icus node to your flow, go to the settings and configure the name and the region, where you want to get the data from.
+  Everytime, the node gets any input message, it will request new data and send it to the output. Please do not flood the api, but only send very few messages. (I recommend once a day)</p>
+  <p>My Idea is, that I want to display todays statictics of icu usage on my dashboard, so I get a feeling what the situation in our hospitals really looks like.</p>
+  <p># Which values do I get?</p>
+  <p>I decided to provide most of the icu stats, the API provides. Also the name of the region and the state are being passed along. This looks like:</p>
+  <span>
+  {
+    "sites_count": 2,
+    "units_used": 122,
+    "units_free": 18,
+    "units_free_percent": 12.8571428571429,
+    "units_total": 140,
+    "covid_cases": 14,
+    "covid_cases_ventilated": 13,
+    "covid_cases_ventilated_percent": 92,
+    "covid_cases_percent": 11.47541,
+    "region_name": "SK Würzburg",
+    "state_name": "Bayern",
+    "date": "14.04.2021 12:15 Uhr"
+  }
+  </span>
+</script>
