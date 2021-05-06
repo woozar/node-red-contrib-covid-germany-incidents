@@ -1,6 +1,6 @@
 # node-red-contrib-covid-germany-incidents
 
-A node to receive the current incident value of your area in germany
+A node to receive the current incident value of your area in germany. Sample Flow see http://blog.wenzlaff.de/?p=16777
 
 ## DISCLAIMER
 
