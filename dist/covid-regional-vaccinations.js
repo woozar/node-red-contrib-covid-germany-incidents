@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Axios = require("axios");
 function getRegions() {
     return __awaiter(this, void 0, void 0, function () {
-        var getInhabitants, result, _i, _a, line, cols, i;
+        var getInhabitants, result, _i, _a, line, cols;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4, Axios.default.get("https://impfdashboard.de/data/regions.35d24a86.tsv").catch(function (e) {
@@ -51,17 +51,10 @@ function getRegions() {
                     for (_i = 0, _a = getInhabitants.data.split('\n'); _i < _a.length; _i++) {
                         line = _a[_i];
                         cols = line.split('\t');
-                        for (i = 0; i < cols.length; i++) {
-                            if (cols[i].startsWith('"'))
-                                cols[i] = cols[i].substr(1);
-                            if (cols[i].endsWith('"'))
-                                cols[i] = cols[i].substr(0, cols[i].length - 1);
-                        }
-                        if (cols[0] === 'id')
+                        if (cols.length < 4 || cols[1] === 'id')
                             continue;
-                        result[Number.parseInt(cols[0])] = {
-                            code: cols[1],
-                            label: cols[2],
+                        result[Number.parseInt(cols[1])] = {
+                            code: cols[2],
                             population: Number.parseInt(cols[3])
                         };
                     }
@@ -72,7 +65,7 @@ function getRegions() {
 }
 function getData(region) {
     return __awaiter(this, void 0, void 0, function () {
-        var getVaccinations, _i, _a, line, cols, i;
+        var getVaccinations, _i, _a, line, cols;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4, Axios.default.get("https://impfdashboard.de/static/data/germany_vaccinations_by_state.tsv").catch(function (e) {
@@ -83,12 +76,6 @@ function getData(region) {
                     for (_i = 0, _a = getVaccinations.data.split('\n'); _i < _a.length; _i++) {
                         line = _a[_i];
                         cols = line.split('\t');
-                        for (i = 0; i < cols.length; i++) {
-                            if (cols[i].startsWith('"'))
-                                cols[i] = cols[i].substr(1);
-                            if (cols[i].endsWith('"'))
-                                cols[i] = cols[i].substr(0, cols[i].length - 1);
-                        }
                         if (cols[0] === region.code) {
                             return [2, {
                                     population: region.population,
