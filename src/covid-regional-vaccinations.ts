@@ -28,7 +28,7 @@ interface VaccinationData {
 }
 
 async function getRegions(): Promise<RegionsData> {
-  const getInhabitants = await Axios.default.get(`https://impfdashboard.de/data/regions.4593ee96.tsv`).catch(e => {
+  const getInhabitants = await Axios.default.get(`https://impfdashboard.de/data/regions.35d24a86.tsv`).catch(e => {
     throw new Error(`Could not load regions. ${e.message}`)
   })
   const result: RegionsData = {}
