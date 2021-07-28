@@ -9,7 +9,6 @@ interface RegionalVaccinationsProperties extends NodeProperties {
 
 interface Region {
   code: string
-  label: string
   population: number
 }
 
@@ -34,15 +33,10 @@ async function getRegions(): Promise<RegionsData> {
   const result: RegionsData = {}
   for (const line of (getInhabitants.data as string).split('\n')) {
     const cols = line.split('\t')
-    for (let i = 0; i < cols.length; i++) {
-      if (cols[i].startsWith('"')) cols[i] = cols[i].substr(1)
-      if (cols[i].endsWith('"')) cols[i] = cols[i].substr(0, cols[i].length - 1)
-    }
     // skip first line
-    if (cols[0] === 'id') continue
-    result[Number.parseInt(cols[0])] = {
-      code: cols[1],
-      label: cols[2],
+    if (cols.length < 4 || cols[1] === 'id') continue
+    result[Number.parseInt(cols[1])] = {
+      code: cols[2],
       population: Number.parseInt(cols[3])
     }
   }
@@ -55,10 +49,6 @@ async function getData(region: Region): Promise<VaccinationData> {
   })
   for (const line of (getVaccinations.data as string).split('\n')) {
     const cols = line.split('\t')
-    for (let i = 0; i < cols.length; i++) {
-      if (cols[i].startsWith('"')) cols[i] = cols[i].substr(1)
-      if (cols[i].endsWith('"')) cols[i] = cols[i].substr(0, cols[i].length - 1)
-    }
     if (cols[0] === region.code) {
       // code	vaccinationsTotal	peopleFirstTotal	peopleFullTotal
       return {
