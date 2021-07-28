@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-covid-german-incidents",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "A node to receive the current incident value of your area in germany",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,8 @@
     "prettier": "prettier --config '.prettierrc.js' './**/*.{js,ts,tsx}'",
     "prettier:update": "yarn run prettier --write",
     "lint": "tsc --noEmit && yarn run prettier -l && eslint 'src/**/*.{js,ts,tsx}'",
-    "lint:fix": "eslint 'src/**/*.{js,ts,tsx}' --fix && yarn run prettier:update"
+    "lint:fix": "eslint 'src/**/*.{js,ts,tsx}' --fix && yarn run prettier:update",
+    "prepublish": "yarn build"
   },
   "files": [
     "dist"
