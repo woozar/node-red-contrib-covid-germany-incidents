@@ -42,7 +42,7 @@ function getRegions() {
         var getInhabitants, result, _i, _a, line, cols, i;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0: return [4, Axios.default.get("https://impfdashboard.de/data/regions.4593ee96.tsv").catch(function (e) {
+                case 0: return [4, Axios.default.get("https://impfdashboard.de/data/regions.35d24a86.tsv").catch(function (e) {
                         throw new Error("Could not load regions. " + e.message);
                     })];
                 case 1:
