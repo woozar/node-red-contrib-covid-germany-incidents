@@ -2,14 +2,14 @@ import * as Axios from 'axios'
 // eslint-disable-next-line import/no-unresolved, no-unused-vars
 import { Red, Node, NodeProperties } from 'node-red'
 
-interface LocalIncidentsProperties extends NodeProperties {
+interface RegionalIncidentsProperties extends NodeProperties {
   name: string
   region: string
 }
 
 module.exports = (red: Red): void => {
   class CovidRegionalIncidents {
-    constructor(config: LocalIncidentsProperties) {
+    constructor(config: RegionalIncidentsProperties) {
       red.nodes.createNode(this as any, config)
       const node: Node = this as any
       node.on('input', (_msg: any, send: Function, done: Function) => {
